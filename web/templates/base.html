@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}VehicleHub{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="/" class="logo">
+        🚗 VehicleHub
+    </a>
+
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/vehicles">Vehicles</a>
+        <a href="/customers">Customers</a>
+        <a href="/bookings">Bookings</a>
+        <a href="/billing">Billing</a>
+    </div>
+
+</nav>
+
+<main class="container">
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+</body>
+</html>

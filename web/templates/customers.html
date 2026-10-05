@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Customers | VehicleHub{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div>
+        <p class="eyebrow">CUSTOMER MANAGEMENT</p>
+        <h1>Customers</h1>
+        <p class="muted">Manage your rental customers.</p>
+    </div>
+</section>
+
+<section class="form-card">
+
+    <h2>Add Customer</h2>
+
+    <form action="/customers/add" method="POST">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Name</label>
+                <input name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label>License Number</label>
+                <input name="license_number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input name="address">
+            </div>
+
+        </div>
+
+        <button class="button" type="submit">
+            + Add Customer
+        </button>
+
+    </form>
+
+</section>
+
+<section class="section-header">
+    <div>
+        <h2>Customers</h2>
+        <p class="muted">{{ customers|length }} customer(s)</p>
+    </div>
+</section>
+
+<section class="table-card">
+
+<table>
+
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Email</th>
+    <th>License</th>
+    <th>Address</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for c in customers %}
+
+<tr>
+    <td>{{ c[0] }}</td>
+    <td><strong>{{ c[1] }}</strong></td>
+    <td>{{ c[2] }}</td>
+    <td>{{ c[3] }}</td>
+    <td>{{ c[4] }}</td>
+    <td>{{ c[5] }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</section>
+
+{% endblock %}

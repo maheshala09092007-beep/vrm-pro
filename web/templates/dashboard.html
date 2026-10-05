@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | VehicleHub{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div>
+        <p class="eyebrow">VEHICLE MANAGEMENT</p>
+
+        <h1>Manage your fleet smarter.</h1>
+
+        <p>
+            Manage vehicles, customers, bookings and billing
+            from one place.
+        </p>
+
+        <a href="/vehicles" class="button">
+            Manage Vehicles →
+        </a>
+    </div>
+
+</section>
+
+
+<section class="stats">
+
+    <div class="stat-card">
+        <div class="stat-icon">🚗</div>
+        <div>
+            <h2>{{ vehicles|length }}</h2>
+            <p>Total Vehicles</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div>
+            <h2>{{ customers|length }}</h2>
+            <p>Customers</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div>
+            <h2>{{ bookings|length }}</h2>
+            <p>Bookings</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div>
+            <h2>{{ bills|length }}</h2>
+            <p>Bills</p>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="section-header">
+
+    <div>
+        <h2>Vehicles</h2>
+        <p class="muted">Recently added vehicles</p>
+    </div>
+
+    <a href="/vehicles" class="button secondary">
+        View All
+    </a>
+
+</section>
+
+
+<section class="vehicle-grid">
+
+{% for vehicle in vehicles %}
+
+    <article class="vehicle-card">
+
+        {% if vehicle[7] %}
+
+            <img
+                src="/uploads/{{ vehicle[7] }}"
+                alt="{{ vehicle[2] }} {{ vehicle[3] }}"
+            >
+
+        {% else %}
+
+            <div class="vehicle-placeholder">
+                🚗
+            </div>
+
+        {% endif %}
+
+        <div class="vehicle-info">
+
+            <div class="vehicle-title">
+
+                <div>
+                    <h3>{{ vehicle[2] }} {{ vehicle[3] }}</h3>
+                    <p>{{ vehicle[1] }}</p>
+                </div>
+
+                <span class="status">
+                    {{ vehicle[6] }}
+                </span>
+
+            </div>
+
+            <div class="vehicle-bottom">
+
+                <span>{{ vehicle[4] }}</span>
+
+                <strong>
+                    ₹{{ vehicle[5] }}
+                    <small>/day</small>
+                </strong>
+
+            </div>
+
+        </div>
+
+    </article>
+
+{% else %}
+
+    <div class="empty">
+        No vehicles found.
+    </div>
+
+{% endfor %}
+
+</section>
+
+{% endblock %}

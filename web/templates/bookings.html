@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Bookings | VehicleHub{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div>
+        <p class="eyebrow">RENTAL MANAGEMENT</p>
+        <h1>Bookings</h1>
+        <p class="muted">Create and manage vehicle bookings.</p>
+    </div>
+</section>
+
+<section class="form-card">
+
+<h2>Create Booking</h2>
+
+<form action="/bookings/add" method="POST">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Customer</label>
+
+<select name="customer_id" required>
+
+<option value="">Select customer</option>
+
+{% for c in customers %}
+<option value="{{ c[0] }}">
+    {{ c[1] }}
+</option>
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+<label>Vehicle</label>
+
+<select name="vehicle_id" required>
+
+<option value="">Select vehicle</option>
+
+{% for v in vehicles %}
+
+<option value="{{ v[0] }}">
+    {{ v[1] }} {{ v[2] }} — {{ v[3] }}
+    (₹{{ v[4] }}/day)
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+<label>Start Date</label>
+<input type="date" name="start_date" required>
+</div>
+
+
+<div class="form-group">
+<label>End Date</label>
+<input type="date" name="end_date" required>
+</div>
+
+</div>
+
+<button class="button" type="submit">
+    + Create Booking
+</button>
+
+</form>
+
+</section>
+
+
+<section class="section-header">
+
+<div>
+<h2>Bookings</h2>
+<p class="muted">{{ bookings|length }} booking(s)</p>
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Customer</th>
+<th>Vehicle</th>
+<th>Registration</th>
+<th>Start</th>
+<th>End</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for b in bookings %}
+
+<tr>
+
+<td>{{ b[0] }}</td>
+
+<td><strong>{{ b[1] }}</strong></td>
+
+<td>{{ b[2] }} {{ b[3] }}</td>
+
+<td>{{ b[4] }}</td>
+
+<td>{{ b[5] }}</td>
+
+<td>{{ b[6] }}</td>
+
+<td>
+<span class="status">{{ b[7] }}</span>
+</td>
+
+<td>
+
+{% if b[7] == "Confirmed" %}
+
+<form
+    action="/bookings/{{ b[0] }}/complete"
+    method="POST"
+    style="display:inline"
+>
+<button class="small-button" type="submit">
+Complete
+</button>
+</form>
+
+<form
+    action="/bookings/{{ b[0] }}/cancel"
+    method="POST"
+    style="display:inline"
+>
+<button class="small-button danger" type="submit">
+Cancel
+</button>
+</form>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</section>
+
+{% endblock %}

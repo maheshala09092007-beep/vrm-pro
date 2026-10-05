@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Billing | VehicleHub{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+<div>
+<p class="eyebrow">PAYMENTS</p>
+<h1>Billing</h1>
+<p class="muted">Generate and manage rental bills.</p>
+</div>
+
+</section>
+
+
+<section class="form-card">
+
+<h2>Generate Bill</h2>
+
+<form action="/billing/add" method="POST">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Booking</label>
+
+<select name="booking_id" required>
+
+<option value="">Select booking</option>
+
+{% for b in bookings %}
+
+<option value="{{ b[0] }}">
+    #{{ b[0] }} —
+    {{ b[1] }} —
+    {{ b[2] }} {{ b[3] }} —
+    {{ b[4] }} to {{ b[5] }}
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Extra Charges</label>
+
+<input
+    type="number"
+    name="extra_charges"
+    value="0"
+    min="0"
+    step="0.01"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Payment Method</label>
+
+<select name="payment_method" required>
+
+<option value="Cash">Cash</option>
+<option value="UPI">UPI</option>
+<option value="Card">Card</option>
+
+</select>
+
+</div>
+
+</div>
+
+<button class="button" type="submit">
+    + Generate Bill
+</button>
+
+</form>
+
+</section>
+
+
+<section class="section-header">
+
+<div>
+<h2>Bills</h2>
+<p class="muted">{{ bills|length }} bill(s)</p>
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Bill</th>
+<th>Customer</th>
+<th>Vehicle</th>
+<th>Rental</th>
+<th>Extra</th>
+<th>Total</th>
+<th>Payment</th>
+<th>Method</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for b in bills %}
+
+<tr>
+
+<td>#{{ b[0] }}</td>
+
+<td>{{ b[2] }}</td>
+
+<td>{{ b[3] }} {{ b[4] }}</td>
+
+<td>₹{{ b[5] }}</td>
+
+<td>₹{{ b[6] }}</td>
+
+<td><strong>₹{{ b[7] }}</strong></td>
+
+<td>
+<span class="status">{{ b[8] }}</span>
+</td>
+
+<td>{{ b[9] }}</td>
+
+<td>
+
+{% if b[8] == "Pending" %}
+
+<form
+    action="/billing/{{ b[0] }}/paid"
+    method="POST"
+>
+
+<button class="small-button" type="submit">
+Mark Paid
+</button>
+
+</form>
+
+{% else %}
+
+<span>✓ Paid</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</section>
+
+{% endblock %}

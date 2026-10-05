@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicles | VehicleHub{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <div>
+        <p class="eyebrow">FLEET MANAGEMENT</p>
+        <h1>Vehicles</h1>
+        <p class="muted">
+            Add and manage vehicles in your fleet.
+        </p>
+    </div>
+
+</section>
+
+
+<section class="form-card">
+
+    <h2>Add New Vehicle</h2>
+
+    <form
+        action="/vehicles/add"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Registration Number</label>
+
+                <input
+                    type="text"
+                    name="registration_no"
+                    placeholder="KL07AB1234"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Brand</label>
+
+                <input
+                    type="text"
+                    name="brand"
+                    placeholder="Toyota"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Model</label>
+
+                <input
+                    type="text"
+                    name="model"
+                    placeholder="Innova"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Vehicle Type</label>
+
+                <select name="vehicle_type" required>
+
+                    <option value="">
+                        Select vehicle type
+                    </option>
+
+                    <option value="SUV">SUV</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Bike">Bike</option>
+                    <option value="Scooter">Scooter</option>
+                    <option value="Van">Van</option>
+                    <option value="Other">Other</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Price Per Day</label>
+
+                <input
+                    type="number"
+                    name="price_per_day"
+                    placeholder="2500"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Vehicle Image</label>
+
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button type="submit" class="button">
+            + Add Vehicle
+        </button>
+
+    </form>
+
+</section>
+
+
+<section class="section-header">
+
+    <div>
+        <h2>All Vehicles</h2>
+        <p class="muted">
+            {{ vehicles|length }} vehicle(s)
+        </p>
+    </div>
+
+</section>
+
+
+<section class="vehicle-grid">
+
+{% for vehicle in vehicles %}
+
+    <article class="vehicle-card">
+
+        {% if vehicle[7] %}
+
+            <img
+                src="/uploads/{{ vehicle[7] }}"
+                alt="{{ vehicle[2] }} {{ vehicle[3] }}"
+            >
+
+        {% else %}
+
+            <div class="vehicle-placeholder">
+                🚗
+            </div>
+
+        {% endif %}
+
+
+        <div class="vehicle-info">
+
+            <div class="vehicle-title">
+
+                <div>
+                    <h3>{{ vehicle[2] }} {{ vehicle[3] }}</h3>
+                    <p>{{ vehicle[1] }}</p>
+                </div>
+
+                <span class="status">
+                    {{ vehicle[6] }}
+                </span>
+
+            </div>
+
+
+            <div class="vehicle-bottom">
+
+                <span>{{ vehicle[4] }}</span>
+
+                <strong>
+                    ₹{{ vehicle[5] }}
+                    <small>/day</small>
+                </strong>
+
+            </div>
+
+        </div>
+
+    </article>
+
+{% else %}
+
+    <div class="empty">
+        No vehicles found.
+    </div>
+
+{% endfor %}
+
+</section>
+
+{% endblock %}
